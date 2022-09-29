@@ -1,0 +1,39 @@
+.container {
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 0;
+}
+
+.actionFinder {
+  width: 100%;
+  height: 250px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #88888844;
+  padding: 8px;
+  overflow: auto;
+  border-radius: 2px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.leftMargin {
+  margin-left: 7px;
+}
+
+.label {
+  margin-right: 20px;
+}
+
+.colorBox {
+  height: 20px;
+  width: 45px;
+  border: 1px solid #88888844;
+  border-radius: 2px;
+  cursor: pointer;
+}

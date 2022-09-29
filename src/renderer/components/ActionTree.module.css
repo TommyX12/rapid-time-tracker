@@ -1,0 +1,69 @@
+.container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.itemContainer {
+  padding-bottom: 2px;
+  padding-right: 10px;
+}
+
+.item {
+  height: 100%;
+  padding-right: 5px;
+  font-size: 0.95em;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.item:hover {
+  background-color: #88888822;
+}
+
+.itemIcon {
+  margin: 0 5px;
+  opacity: 0.75;
+}
+
+.itemText {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  background-color: #88888822;
+  border-radius: 2px;
+  padding: 2px 5px;
+  border-left: 2px solid #888888;
+}
+
+.durationChip {
+  padding: 0 2px;
+  border-radius: 2px;
+  background-color: #88888833;
+  margin-right: 5px;
+  border: 1px solid #88888833;
+}
+
+.leafDurationChip {
+  font-weight: bold;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+  justify-content: left !important;
+  margin-bottom: 10px;
+}
+
+.toolbarItem {
+  margin-bottom: 3px;
+  margin-right: 3px;
+}
+
+.leafExpandIcon {
+  cursor: none;
+  pointer-events: none;
+}

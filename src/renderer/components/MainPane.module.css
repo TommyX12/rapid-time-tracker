@@ -1,0 +1,16 @@
+.pathText {
+  padding: 2px 5px;
+  border-radius: 2px;
+  background-color: #88888822;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.mainButtonGroup {
+  padding-right: 5px;
+  margin-right: 5px;
+  border-left: 1px solid #88888888;
+}
+
+.tabsContainer {
+}

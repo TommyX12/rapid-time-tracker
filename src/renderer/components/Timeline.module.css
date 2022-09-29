@@ -1,0 +1,144 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.columns {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.column {
+  position: relative;
+  height: 100%;
+}
+
+.markerColumn {
+  width: 50px;
+  font-size: 0.85em;
+}
+
+.rulerColumn {
+  width: 1px;
+  background-color: #888888;
+  margin: 0 10px;
+}
+
+.recordColumn {
+  flex: 1
+}
+
+.firstMarkerText {
+  text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-weight: bold;
+}
+
+.marker {
+  text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.dayMarker {
+  font-weight: bold;
+}
+
+.yearMarker {
+  font-weight: bold;
+}
+
+.hourMarker {
+  opacity: 0.75;
+}
+
+.tick {
+  width: 5px;
+  height: 3px;
+  background-color: #888888;
+}
+
+.dayTick {
+}
+
+.yearTick {
+}
+
+.hourTick {
+  width: 3px;
+  height: 2px;
+  background-color: #888888aa;
+}
+
+.record {
+  padding: 2px 5px;
+  background-color: #88888844;
+  border-radius: 2px;
+  font-size: 0.95em;
+  border: 1px solid #888888;
+  border-left-width: 2px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.record:hover {
+  outline: 1px solid #88888888;
+}
+
+.currentTick {
+  width: 150px;
+  height: 2px;
+  background: linear-gradient(to right, #2288ff, #2288ff00);
+}
+
+.recordNameText {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.recordDurationText {
+  padding: 0 2px;
+  border-radius: 2px;
+  background-color: #88888844;
+}
+
+.dateInput {
+}
+
+.dateInput>input {
+  border: none;
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  background-color: #88888822;
+  height: 25px;
+  opacity: 0.85;
+}

@@ -1,0 +1,47 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  height: 0;
+  width: 100%;
+}
+
+.content {
+  width: calc(min(max(100% - 25px, 1024px), 100%));
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.sideBar {
+  width: 320px;
+  height: 100%;
+  border-right: 1px solid #88888888;
+  padding: 15px;
+}
+
+.mainPane {
+  min-width: 0;
+  flex: 1;
+  height: 100%;
+  padding: 20px;
+}
+
+.bigTitle {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.dark {
+  background-color: #333333;
+}
