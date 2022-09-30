@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Button, FocusStyleManager } from '@blueprintjs/core';
+import { Button, ButtonGroup, FocusStyleManager } from '@blueprintjs/core';
 import {
   createContext,
   useCallback,
@@ -105,6 +105,14 @@ export function WelcomeScreen() {
   const { loadFromDisk } = useContext(MainContext);
   const { fsUtil } = useContext(ServiceContext);
 
+  const openNew = useCallback(async () => {
+    const result = await fsUtil.readNewFilePath();
+    const path = result.canceled ? undefined : result.filePath;
+    if (path !== undefined) {
+      loadFromDisk(path);
+    }
+  }, [fsUtil, loadFromDisk]);
+
   const open = useCallback(async () => {
     const result = await fsUtil.readFilePath();
     const path = result.canceled ? undefined : result.filePaths[0];
@@ -116,9 +124,14 @@ export function WelcomeScreen() {
   return (
     <div className="fill-parent column">
       <h1 className={styles.bigTitle}>Welcome To Rapid Time Tracker</h1>
-      <Button icon="folder-open" intent="primary" onClick={open}>
-        Open File
-      </Button>
+      <ButtonGroup>
+        <Button icon="folder-new" intent="primary" onClick={openNew}>
+          New
+        </Button>
+        <Button icon="folder-open" onClick={open}>
+          Open
+        </Button>
+      </ButtonGroup>
     </div>
   );
 }

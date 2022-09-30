@@ -28,6 +28,14 @@ export function MainPane() {
     setDarkMode(!darkMode);
   }, [darkMode, setDarkMode]);
 
+  const openNew = useCallback(async () => {
+    const result = await fsUtil.readNewFilePath();
+    const path = result.canceled ? undefined : result.filePath;
+    if (path !== undefined) {
+      loadFromDisk(path);
+    }
+  }, [fsUtil, loadFromDisk]);
+
   const open = useCallback(async () => {
     const result = await fsUtil.readFilePath();
     const path = result.canceled ? undefined : result.filePaths[0];
@@ -71,9 +79,12 @@ export function MainPane() {
           {state.filePath}
         </div>
         <ButtonGroup minimal className={styles.mainButtonGroup}>
-          <Button icon="folder-open" onClick={open}>
-            Open
-          </Button>
+          <Tooltip2 content="New" position="bottom">
+            <Button icon="folder-new" onClick={openNew}></Button>
+          </Tooltip2>
+          <Tooltip2 content="Open" position="bottom">
+            <Button icon="folder-open" onClick={open}></Button>
+          </Tooltip2>
           <Tooltip2 content="Reload" position="bottom">
             <Button icon="refresh" onClick={reload}></Button>
           </Tooltip2>

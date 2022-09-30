@@ -142,5 +142,8 @@ app
     ipcMain.handle('showOpenDialog', (event, params) => {
       return dialog.showOpenDialog(params);
     });
+    ipcMain.handle('showSaveDialog', (event, params) => {
+      return dialog.showSaveDialog(params);
+    });
   })
   .catch(console.log);

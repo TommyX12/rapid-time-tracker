@@ -25,7 +25,15 @@ export class FsUtil {
   readFilePath(defaultPath?: string) {
     return this.els.dialog.showOpenDialog({
       defaultPath,
-      properties: ['openFile', 'promptToCreate'],
+      properties: ['openFile'],
+      filters: [{ name: 'Data File', extensions: ['txt'] }],
+    });
+  }
+
+  readNewFilePath(defaultPath?: string) {
+    return this.els.dialog.showSaveDialog({
+      defaultPath,
+      properties: [],
       filters: [{ name: 'Data File', extensions: ['txt'] }],
     });
   }

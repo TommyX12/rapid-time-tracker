@@ -4,6 +4,7 @@ import {
   IpcRendererEvent,
   OpenDialogOptions,
   OpenDialogSyncOptions,
+  SaveDialogOptions,
 } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -35,5 +36,7 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.invoke('showOpenDialogSync', params),
     showOpenDialog: (params: OpenDialogOptions) =>
       ipcRenderer.invoke('showOpenDialog', params),
+    showSaveDialog: (params: SaveDialogOptions) =>
+      ipcRenderer.invoke('showSaveDialog', params),
   },
 });
