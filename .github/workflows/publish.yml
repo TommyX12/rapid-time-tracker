@@ -28,11 +28,39 @@ jobs:
         run: ls -l ./release/build
 
       - name: Upload release
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: xresloader/upload-to-github-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "release/build/*.exe;LICENSE.md;release/build/*.deb;release/build/*.AppImage;release/build/*.dmg"
+          file: "LICENSE.md;release/build/*.deb;release/build/*.AppImage"
+          delete_file: "LICENSE.md;release/build/*.deb;release/build/*.AppImage"
+          tag_name: continuous_releases
+          overwrite: true
+          verbose: true
+          draft: false
+
+      - name: Upload release
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: xresloader/upload-to-github-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "release/build/*.exe"
+          delete_file: "release/build/*.exe"
+          tag_name: continuous_releases
+          overwrite: true
+          verbose: true
+          draft: false
+
+      - name: Upload release
+        if: ${{ matrix.os == 'macOS-latest' }}
+        uses: xresloader/upload-to-github-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "release/build/*.dmg"
+          delete_file: "release/build/*.dmg"
           tag_name: continuous_releases
           overwrite: true
           verbose: true
