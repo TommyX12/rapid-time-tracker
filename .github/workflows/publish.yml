@@ -42,6 +42,10 @@ jobs:
 
       - name: Upload release
         if: ${{ matrix.os == 'windows-latest' }}
+        run: npm run rename-windows-binary
+
+      - name: Upload release
+        if: ${{ matrix.os == 'windows-latest' }}
         uses: xresloader/upload-to-github-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
