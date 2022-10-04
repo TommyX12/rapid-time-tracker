@@ -22,6 +22,41 @@
   justify-content: center;
 }
 
+.keyHintRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.keyHintContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .leftMargin {
   margin-left: 7px;
+}
+
+.keyHint {
+  font-size: 0.8em;
+  margin-right: 5px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  background-color: #88888822;
+  border: 1px solid #88888844;
+}
+
+.keyHintText {
+  font-size: 0.85em;
+  margin-right: 20px;
+}
+
+.disabledKeyHint {
+  opacity: 0.5;
 }

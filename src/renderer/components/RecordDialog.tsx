@@ -21,6 +21,7 @@ import { QuickAddActionDialog } from './QuickAddActionDialog';
 import { RecordModel } from '../data/data-model';
 import { DateInput2 } from '@blueprintjs/datetime2';
 import { TimePrecision } from '@blueprintjs/datetime';
+import classNames from 'classnames';
 
 export interface EditRecordProps {
   recordReferenceSignature: RecordReferenceSignature;
@@ -267,9 +268,11 @@ export function RecordDialog({
               setActionNameString(event.target.value);
             }}
             rightElement={
-              <Button icon="plus" onClick={forceCreate}>
-                Create
-              </Button>
+              actionNameString.length > 0 ? (
+                <Button icon="plus" onClick={forceCreate}>
+                  Create
+                </Button>
+              ) : undefined
             }
           />
         </div>
@@ -283,6 +286,28 @@ export function RecordDialog({
             inputRef={durationInputRef}
             min={0}
           />
+        </div>
+      </div>
+      <div className={classNames(styles.keyHintRow)}>
+        <div className={styles.keyHintContainer}>
+          <div className={styles.keyHint}>enter</div>
+          <div className={styles.keyHintText}>Confirm</div>
+        </div>
+        <div
+          className={classNames(styles.keyHintContainer, {
+            [styles.disabledKeyHint]: actionNameString.length === 0,
+          })}
+        >
+          <div className={styles.keyHint}>shift + enter</div>
+          <div className={styles.keyHintText}>Create</div>
+        </div>
+        <div className={styles.keyHintContainer}>
+          <div className={styles.keyHint}>up / ctrl+k</div>
+          <div className={styles.keyHintText}>Previous</div>
+        </div>
+        <div className={styles.keyHintContainer}>
+          <div className={styles.keyHint}>down / ctrl+j</div>
+          <div className={styles.keyHintText}>Next</div>
         </div>
       </div>
       <div className={styles.actionFinder}>
