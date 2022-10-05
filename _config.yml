@@ -1,5 +1,7 @@
-theme: jekyll-theme-midnight
 title: Rapid Time Tracker
 description: An ultra-lightweight time tracker operating on a local text file.
+remote_theme: pages-themes/tactile@v0.2.0
 plugins:
-  - jekyll-sitemap
+- jekyll-remote-theme # add this line to the plugins list if you already have one
+- jekyll-seo-tag
+- jekyll-sitemap
