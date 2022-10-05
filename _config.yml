@@ -1,0 +1,5 @@
+theme: jekyll-theme-midnight
+title: Rapid Time Tracker
+description: An ultra-lightweight time tracker operating on a local text file.
+plugins:
+  - jekyll-sitemap
