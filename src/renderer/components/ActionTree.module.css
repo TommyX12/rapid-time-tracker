@@ -46,10 +46,11 @@
   background-color: #88888833;
   margin-right: 5px;
   border: 1px solid #88888833;
+  font-weight: bold;
 }
 
 .leafDurationChip {
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .toolbar {

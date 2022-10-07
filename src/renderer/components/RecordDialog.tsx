@@ -302,6 +302,10 @@ export function RecordDialog({
           <div className={styles.keyHintText}>Create</div>
         </div>
         <div className={styles.keyHintContainer}>
+          <div className={styles.keyHint}>tab</div>
+          <div className={styles.keyHintText}>Insert</div>
+        </div>
+        <div className={styles.keyHintContainer}>
           <div className={styles.keyHint}>up / ctrl+k</div>
           <div className={styles.keyHintText}>Previous</div>
         </div>

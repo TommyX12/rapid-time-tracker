@@ -28,8 +28,6 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .keyHintContainer {
@@ -54,7 +52,6 @@
 
 .keyHintText {
   font-size: 0.85em;
-  margin-right: 20px;
 }
 
 .disabledKeyHint {
