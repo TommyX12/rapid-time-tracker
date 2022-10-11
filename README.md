@@ -1,6 +1,6 @@
 # Rapid Time Tracker
 
-Rapid Time Tracker is an ultra-lightweight time tracker operating on a local text file.
+Rapid Time Tracker is an ultra-lightweight time tracker operating on a local text file. [Download here](https://github.com/TommyX12/rapid-time-tracker/releases).
 - **Fast**: Intelligent fuzzy search enables rapid entry input.
 - **Logical**: Recorded activities are fully hierarchical, with visualizations capturing time-spending patterns at any scale.
 - **Privacy first**: Data is stored in a local editor-friendly txt file, which can be managed in any way you'd prefer.
