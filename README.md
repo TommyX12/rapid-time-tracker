@@ -120,8 +120,56 @@ A block-visualization of the record times is shown on the right most side, with 
 
 ![bar](screenshots/bar.png)
 
+### Toolbar
+The top level toolbar supports other miscellaneous features:
+- Undo/redo
+- Switch between light/dark mode
+
 ## Advanced Usage
 
 ### The fuzzy finder
 
+#### Fuzzy searching
+
+- If the query string does not contain `:`, the fuzzy search algorithm will match any entry that contains the query string as a sub-sequence. This means the entry `entertainment: games: minecraft` can be matched with the text `entmin`, for example.
+- If the query string contains `:`, then **all text before the last `:`** will be matched exactly, and **all text after the last `:` will be matched with fuzzy search**. This means that `entertainment: gammin` will fuzzy search `gammin` among all entries that start with `entertainment:`.
+- Matched entries are ranked intelligently, taking into account the "closeness" of the match as well as if the entry is recently used (i.e. has record inserted). One notable use of the smart ordering is that, when no query text is entered, the entries will be ordered by **last inserted records**. This means immediately pressing `enter` when adding new records will automatically select the most recently inserted action, which can be convenient.
+
+#### Quick creation
+
+- When performing quick creation (i.e. clicking the `Create` button or pressing `shift + enter`), the query text will be used to create an entry that has this exact text as its path.
+- Pressing `tab` (or double-clicking) in the fuzzy finder will insert the currently highlighted entry into the query input box. This can be convenient to create actions under a certain parent. For example, to create `entertainment: games: skyrim`, you can enter `entgam` which is likely to highlight `entertainment: games`, then press `tab` to insert this into the text box. After this, you can type `skyrim`, then press `shift + enter` to finish creation.
+
 ### The data file
+
+The data is stored in a readable and editable plain-text format. It will be automatically saved shortly after a modification is made in the app. You can also manually trigger a save by clicking on the save button.
+
+If you edit the data file (e.g. with a text editor), you can make the app reload by clicking on the reload button.
+
+An example data file may look like:
+```
+[ACTIONS]
+2,routine,#F18928
+  1,check email,#9366D7
+  3,exercise,#C84BFB
+  60,small tasks,#E96338
+4,responsibility,#EB5151
+  15,misc,#5BF7F5
+    16,other,#E5F859
+    35,check mailbox,#EDD483
+12,entertainment,#83D072
+  13,games,#541AFE
+    56,elden ring,#F37894
+
+[RECORDS]
+2022-08-21 12:16:16,1,2
+2022-08-21 13:17:31,3,1
+2022-08-21 14:17:54,3,2
+2022-08-21 15:18:23,1,4
+2022-08-21 16:19:09,60,1
+2022-08-21 17:19:34,35,1
+```
+
+The action section stores the action data, which are ID, name, and color respectively, separated by comma. The indentation represents the parent-children hierarchy (space is used for indentation).
+
+The record section stores the list of records, with date, action ID, and duration respectively, separated by comma.
