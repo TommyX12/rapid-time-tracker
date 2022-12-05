@@ -2,8 +2,15 @@
   flex: 1;
   opacity: 0.85;
   outline: 1px solid #88888899;
+  transition-property: opacity;
+  transition-duration: 0.25s;
+  transition-delay: 0.15s;
 }
 
 .childBox {
-  flex: 2;
+  flex: 1.5;
+}
+
+.dim {
+  opacity: 0.2;
 }

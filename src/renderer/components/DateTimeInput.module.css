@@ -1,0 +1,12 @@
+.dateInput {
+}
+
+.dateInput>input {
+  border: none;
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  background-color: #88888822;
+  height: 25px;
+  opacity: 0.85;
+}

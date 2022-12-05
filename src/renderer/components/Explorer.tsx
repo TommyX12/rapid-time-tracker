@@ -178,7 +178,7 @@ function getCountingIndices(state: DataState, dateRange?: DateRange) {
   return [startIndex, endIndex];
 }
 
-function getCounter(state: DataState, dateRange?: DateRange) {
+export function getCounter(state: DataState, dateRange?: DateRange) {
   const result = new Counter<ActionID>();
   const [startIndex, endIndex] = getCountingIndices(state, dateRange);
 
@@ -378,6 +378,7 @@ export function Explorer() {
             {mode.name}
           </Button>
         ))}
+        <div className="hfill"></div>
         <HTMLSelect
           options={UNIT_OPTIONS.map((option, index) => ({
             value: index,
@@ -387,7 +388,7 @@ export function Explorer() {
           className={styles.unitOptions}
           value={unitOptionIndex}
           onChange={onUnitOptionChange}
-        ></HTMLSelect>
+        />
       </div>
       {regionMode.enableCustomDateRange && (
         <div

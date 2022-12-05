@@ -14,3 +14,16 @@
 
 .tabsContainer {
 }
+
+.tabBar {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #88888844;
+}
+
+.selectedTabButton {
+  font-weight: bold;
+}
+
+.tabButtonText {
+  margin-left: 8px;
+}

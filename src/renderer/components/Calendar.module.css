@@ -1,0 +1,89 @@
+.inactiveButton {
+  color: #888888 !important;
+}
+
+.button {
+  margin-right: 3px;
+}
+
+.column {
+  padding: 5px 0;
+}
+
+.barOuterContainer {
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.barInnerContainer {
+  position: relative;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.displayText {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.displayTextCalendar {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+.totalText {
+  font-size: 0.8em;
+  opacity: 0.9;
+  padding: 1px 3px;
+  border-radius: 2px;
+  background: #88888833;
+}
+
+.boldDisplayText {
+  font-weight: bold;
+  color: #5e98ff;
+  opacity: 1.0;
+}
+
+.todayDisplayText {
+  font-weight: bold !important;
+  color: #4fb633 !important;
+  opacity: 1.0 !important;
+}
+
+.calendarCell {
+  border-left: 1px solid #88888844;
+  border-top: 1px solid #88888844;
+}
+
+.calendarCellRightBorder {
+  border-right: 1px solid #88888844;
+}
+
+.calendarCellBottomBorder {
+  border-bottom: 1px solid #88888844;
+}
+
+.calendarCellHeader {
+  padding: 3px 6px;
+}
+
+.boldBackground {
+  background: rgba(93, 153, 185, 0.1);
+  border-left: 1px solid #6e9de7;
+}
+
+.todayBackground {
+  background: rgba(110, 185, 93, 0.2) !important;
+}
+
+.timeBar {
+  margin-left: 10px;
+}

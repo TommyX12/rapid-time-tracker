@@ -1,13 +1,22 @@
-import { Button, ButtonGroup, Divider } from '@blueprintjs/core';
+import { Button, ButtonGroup, Divider, Icon } from '@blueprintjs/core';
 import { Explorer } from './Explorer';
 import { MainContext, ServiceContext } from './Main';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import styles from './MainPane.module.css';
 import classNames from 'classnames';
 import { Tooltip2 } from '@blueprintjs/popover2';
+import { Calendar } from './Calendar';
 
-const tabs = [{ id: 'explorer', title: 'Explorer', panel: Explorer }];
+const TABS = [
+  { id: 'explorer', title: 'Explorer', panel: Explorer, icon: 'properties' },
+  {
+    id: 'calendar',
+    title: 'Calendar',
+    panel: Calendar,
+    icon: 'timeline-bar-chart',
+  },
+];
 
 export function MainPane() {
   const {
@@ -55,6 +64,10 @@ export function MainPane() {
     saveToDisk();
   }, [saveToDisk]);
 
+  const [selectedTabID, setSelectedTabID] = useState(TABS[0].id);
+
+  const Panel = TABS.find((tab) => tab.id === selectedTabID)!.panel;
+
   return (
     <div className="fill-parent column">
       <div className="row fill-width bottom-margin">
@@ -100,15 +113,24 @@ export function MainPane() {
           </Tooltip2>
         </ButtonGroup>
       </div>
-      <div
-        className={classNames(
-          'simple-flex',
-          styles.explorer,
-          'fill-width',
-          'top-margin'
-        )}
-      >
-        <Explorer></Explorer>
+      <div className={classNames('fill-width', 'top-margin', styles.tabBar)}>
+        <ButtonGroup fill minimal>
+          {TABS.map((tab) => (
+            <Button
+              key={tab.id}
+              className={classNames({
+                [styles.selectedTabButton]: tab.id === selectedTabID,
+              })}
+              onClick={() => setSelectedTabID(tab.id)}
+            >
+              <Icon icon={tab.icon as any}></Icon>
+              <span className={styles.tabButtonText}>{tab.title}</span>
+            </Button>
+          ))}
+        </ButtonGroup>
+      </div>
+      <div className={classNames('simple-flex', 'fill-width', 'top-margin')}>
+        <Panel></Panel>
       </div>
     </div>
   );

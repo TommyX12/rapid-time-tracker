@@ -41,6 +41,7 @@ html, body, .bp4-dialog {
   justify-content: center;
   flex-direction: row;
 }
+
 .simple-flex {
   flex: 1;
   min-width: 0;
@@ -69,4 +70,12 @@ html, body, .bp4-dialog {
 
 .top-margin {
   margin-top: 5px;
+}
+
+.right-margin {
+  margin-right: 5px;
+}
+
+.left-margin {
+  margin-left: 5px;
 }
