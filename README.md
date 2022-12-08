@@ -8,6 +8,8 @@ Rapid Time Tracker is an ultra-lightweight time tracker operating on a local tex
 ---
 
 ![main-screenshot](screenshots/main.png)
+![calendar-screenshot-1](screenshots/calendar-1.png)
+![calendar-screenshot-2](screenshots/calendar-2.png)
 
 ---
 
@@ -106,7 +108,7 @@ The timeline (on the left side) allows you to view records in chronological orde
 
 #### Tree
 
-The tree (on the right side) allows you to view the total recorded amount for each action, in a hierarchical structure. Records for child actions, e.g. `entertainment: games: minecraft`, automatically count towards records for ancestors (e.g. `entertainment` and `entertainment: games`).
+The explorer tree (on the right side) allows you to view the total recorded amount for each action, in a hierarchical structure. Records for child actions, e.g. `entertainment: games: minecraft`, automatically count towards records for ancestors (e.g. `entertainment` and `entertainment: games`).
 
 You can click on the actions to edit them.
 
@@ -118,7 +120,15 @@ To view the total recorded amounts in a given period of time, use the date range
 
 A block-visualization of the record times is shown on the right most side, with vertical height of the blocks corresponding to the total recorded duration for the action. You can hover on the blocks to see the exact amounts (depending on the unit option) for the particular action.
 
-![bar](screenshots/bar.png)
+#### Calendar
+
+Click on the **Calendar** button to switch to the calendar view. In this view, you can view record distribution over time. The block visualization follows the action hierarchy.
+
+![calendar-screenshot-1](screenshots/calendar-1.png)
+
+You can hover on the block to highlight that particular action across the entire time range being viewed.
+
+![calendar-screenshot-2](screenshots/calendar-2.png)
 
 ### Toolbar
 The top level toolbar supports other miscellaneous features:
