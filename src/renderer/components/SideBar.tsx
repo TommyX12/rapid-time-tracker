@@ -32,10 +32,7 @@ export function SideBar() {
           title="Add record"
           style={{ width: '600px' }}
         >
-          <RecordDialog
-            isOpen={addDialogOpen}
-            onDone={onAddDialogClose}
-          ></RecordDialog>
+          <RecordDialog onDone={onAddDialogClose}></RecordDialog>
         </Dialog>
       </div>
       <div className={styles.content}>

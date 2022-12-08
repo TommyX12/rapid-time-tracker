@@ -382,7 +382,7 @@ export function Explorer() {
         <HTMLSelect
           options={UNIT_OPTIONS.map((option, index) => ({
             value: index,
-            ...option,
+            label: option.label,
           }))}
           minimal
           className={styles.unitOptions}

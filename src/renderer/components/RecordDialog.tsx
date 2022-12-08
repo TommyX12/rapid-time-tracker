@@ -29,12 +29,12 @@ export interface EditRecordProps {
 }
 
 export function RecordDialog({
-  isOpen,
   editProps,
+  defaultTime,
   onDone,
 }: {
-  isOpen: boolean;
   editProps?: EditRecordProps;
+  defaultTime?: Time;
   onDone?: () => void;
 }) {
   const { state, updateState } = useContext(MainContext);
@@ -57,7 +57,7 @@ export function RecordDialog({
 
   // This is ISO string
   const [date, setDate] = useState<string | null>(
-    Time.now().toDate().toISOString()
+    (defaultTime || Time.now()).toDate().toISOString()
   );
 
   useEffect(() => {

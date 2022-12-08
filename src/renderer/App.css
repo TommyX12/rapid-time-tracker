@@ -79,3 +79,7 @@ html, body, .bp4-dialog {
 .left-margin {
   margin-left: 5px;
 }
+
+.no-pointer-event {
+  pointer-events: none;
+}

@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 
 .column {
@@ -116,6 +117,20 @@
   background: linear-gradient(to right, #2288ff, #2288ff00);
 }
 
+.addIndicatorTick {
+  width: 150px;
+  height: 2px;
+  background: linear-gradient(to right, #22dd22, #2288ff00);
+  position: relative;
+}
+
+.addIndicatorTickIcon {
+  position: absolute;
+  right: -20px;
+  top: -7px;
+  color: #22dd22;
+}
+
 .recordNameText {
   flex: 1;
   min-width: 0;
@@ -141,4 +156,13 @@
   background-color: #88888822;
   height: 25px;
   opacity: 0.85;
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
 }

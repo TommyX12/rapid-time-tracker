@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -19,6 +20,7 @@ import {
   Button,
   ButtonGroup,
   Dialog,
+  Icon,
   Menu,
   MenuItem,
   Position,
@@ -114,6 +116,14 @@ export function TimelineTick({ marker }: { marker: Marker }) {
 
 export function TimelineCurrentTick() {
   return <div className={classNames(styles.currentTick)}></div>;
+}
+
+export function TimelineAddIndicatorTick() {
+  return (
+    <div className={classNames(styles.addIndicatorTick)}>
+      <Icon icon="plus" className={styles.addIndicatorTickIcon}></Icon>
+    </div>
+  );
 }
 
 export function TimelineRecord({
@@ -285,12 +295,17 @@ export function Timeline() {
     // We only want to reload when state changes.
   }, [state]);
 
+  const [addIndicatorTime, setAddIndicatorTime] = useState<Time | undefined>(
+    undefined
+  );
+
   const onWheel = useCallback(
     (e: WheelEvent<HTMLDivElement>) => {
       const deltaTime =
         WHEEL_TO_TIME_FACTOR * e.deltaY * startTime.secondsTo(endTime);
       setStartTime(startTime.addSeconds(deltaTime));
       setEndTime(endTime.addSeconds(deltaTime));
+      setAddIndicatorTime(undefined);
     },
     [endTime, startTime]
   );
@@ -326,6 +341,44 @@ export function Timeline() {
     };
     // Do this when start or end time changes
   }, [startTime, endTime, gotoToday]);
+
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  const addRecordAtTime = useCallback(() => {
+    setEditRecordProps(undefined);
+    setEditRecordDialogOpen(true);
+  }, []);
+
+  useLayoutEffect(() => {
+    const ref = backgroundRef.current;
+    if (!ref) return undefined;
+    const onMove = (e: MouseEvent) => {
+      const bounds = ref.getBoundingClientRect();
+      if (bounds.height === 0) {
+        return;
+      }
+      setAddIndicatorTime(
+        new Time(
+          linearMap(
+            0,
+            bounds.height,
+            startTime.seconds,
+            endTime.seconds,
+            e.clientY - bounds.top
+          )
+        )
+      );
+    };
+    const onLeave = (e: MouseEvent) => {
+      setAddIndicatorTime(undefined);
+    };
+    ref.addEventListener('mousemove', onMove);
+    ref.addEventListener('mouseleave', onLeave);
+    return () => {
+      ref.removeEventListener('mousemove', onMove);
+      ref.removeEventListener('mouseleave', onLeave);
+    };
+  }, [endTime, startTime]);
 
   return (
     <div className={styles.container} onWheel={onWheel}>
@@ -393,8 +446,22 @@ export function Timeline() {
           >
             <TimelineCurrentTick />
           </TimelineObject>
+          {addIndicatorTime && (
+            <TimelineObject
+              startTime={startTime}
+              endTime={endTime}
+              time={addIndicatorTime}
+            >
+              <TimelineAddIndicatorTick />
+            </TimelineObject>
+          )}
         </div>
         <div className={classNames(styles.column, styles.recordColumn)}>
+          <div
+            ref={backgroundRef}
+            className={styles.background}
+            onClick={() => addIndicatorTime !== undefined && addRecordAtTime()}
+          />
           {recordItems.map(({ record, index }) => (
             <TimelineObject
               key={index}
@@ -416,12 +483,12 @@ export function Timeline() {
       <Dialog
         isOpen={editRecordDialogOpen}
         onClose={onEditRecordDialogClose}
-        title="Edit record"
+        title={editRecordProps ? 'Edit record' : 'Add record at time'}
         style={{ width: '600px' }}
       >
         <RecordDialog
-          isOpen={editRecordDialogOpen}
           editProps={editRecordProps}
+          defaultTime={addIndicatorTime}
           onDone={onEditRecordDialogClose}
         />
       </Dialog>
