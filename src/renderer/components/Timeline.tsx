@@ -36,6 +36,7 @@ const WHEEL_TO_TIME_FACTOR = 0.001;
 const DEFAULT_DAYS_TOP = 0.45;
 const DEFAULT_DAYS_BOTTOM = 0.15;
 const AUTO_TODAY_MS = 60000;
+const RECORD_RIGHT_MARGIN = 10;
 
 enum MarkerType {
   HOUR,
@@ -54,12 +55,14 @@ export function TimelineObject({
   time,
   children,
   verticalCenter = false,
+  rightMargin = 0,
 }: {
   startTime: Time;
   endTime: Time;
   time: Time;
   children: ReactNode;
   verticalCenter?: boolean;
+  rightMargin?: number;
 }) {
   const bottom = linearMap(
     startTime.seconds,
@@ -73,7 +76,7 @@ export function TimelineObject({
       style={{
         position: 'absolute',
         left: 0,
-        right: 0,
+        right: rightMargin,
         bottom: verticalCenter
           ? `calc(${bottom * 100}% - 0.5em)`
           : `${bottom * 100}%`,
@@ -468,6 +471,7 @@ export function Timeline() {
               startTime={startTime}
               endTime={endTime}
               time={record.model.time}
+              rightMargin={RECORD_RIGHT_MARGIN}
             >
               <TimelineRecord
                 state={state}
