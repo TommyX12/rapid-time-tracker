@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Divider, Icon } from '@blueprintjs/core';
+import { Button, ButtonGroup, Dialog, Divider, Icon } from '@blueprintjs/core';
 import { Explorer } from './Explorer';
 import { MainContext, ServiceContext } from './Main';
 import { useCallback, useContext, useState } from 'react';
@@ -7,6 +7,7 @@ import styles from './MainPane.module.css';
 import classNames from 'classnames';
 import { Tooltip2 } from '@blueprintjs/popover2';
 import { Calendar } from './Calendar';
+import { SettingsDialog } from './SettingsDialog';
 
 const TABS = [
   { id: 'explorer', title: 'Explorer', panel: Explorer, icon: 'properties' },
@@ -68,6 +69,15 @@ export function MainPane() {
 
   const Panel = TABS.find((tab) => tab.id === selectedTabID)!.panel;
 
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+  const onSettingsDialogClose = useCallback(() => {
+    setSettingsDialogOpen(false);
+  }, []);
+
+  const openSettingsDialog = useCallback(() => {
+    setSettingsDialogOpen(true);
+  }, []);
+
   return (
     <div className="fill-parent column">
       <div className="row fill-width bottom-margin">
@@ -111,6 +121,7 @@ export function MainPane() {
           >
             <Button icon="floppy-disk" onClick={save}></Button>
           </Tooltip2>
+          <Button icon="more" onClick={openSettingsDialog}></Button>
         </ButtonGroup>
       </div>
       <div className={classNames('fill-width', 'top-margin', styles.tabBar)}>
@@ -132,6 +143,14 @@ export function MainPane() {
       <div className={classNames('simple-flex', 'fill-width', 'top-margin')}>
         <Panel></Panel>
       </div>
+      <Dialog
+        isOpen={settingsDialogOpen}
+        onClose={onSettingsDialogClose}
+        title="Settings"
+        style={{ width: '500px' }}
+      >
+        <SettingsDialog onDone={onSettingsDialogClose} />
+      </Dialog>
     </div>
   );
 }

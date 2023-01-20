@@ -86,7 +86,7 @@ const SETTINGS_CONFIGS: {
 export class DataModelReader {
   read(text: string): DataModel {
     const model: DataModel = {
-      settings: DEFAULT_SETTINGS,
+      settings: { ...DEFAULT_SETTINGS },
       actions: [],
       records: [],
     };

@@ -42,7 +42,6 @@ export const QuickAddActionDialog = ({
   const confirm = useCallback(() => {
     // Prevent double saving
     if (done) return;
-    setDone(true);
 
     for (const childName of chain) {
       if (!DataState.validateActionName(childName.trim())) {
@@ -62,6 +61,7 @@ export const QuickAddActionDialog = ({
       parentID = nextParentID;
     }
     updateState(s);
+    setDone(true);
     onDone?.();
   }, [chain, done, onDone, parent.model.id, state, updateState]);
 

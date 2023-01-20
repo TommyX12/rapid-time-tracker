@@ -53,7 +53,8 @@ export function RecordDialog({
 
   const [done, setDone] = useState(false);
 
-  const [duration, setDuration] = useState(1);
+  const [duration, setDuration] = useState(state.settings.defaultRecordUnits);
+  const [durationText, setDurationText] = useState(`${duration}`);
 
   // This is ISO string
   const [date, setDate] = useState<string | null>(
@@ -83,10 +84,11 @@ export function RecordDialog({
 
     setActionNameString(action.getCanonicalName(state));
     setDuration(record.model.duration);
+    setDurationText(`${record.model.duration}`);
     setDate(record.model.time.toDate().toISOString());
-    // By testing state.records, we make sure that if we quick-add new actions while editing a record, we will not reload or close the dialog.
+    // By testing the reference signature, we make sure that if we quick-add new actions while editing a record, we will not reload or close the dialog.
     // We explicitly only want the following here.
-  }, [state.recordReferenceSignature, editProps]);
+  }, [state.recordReferenceSignature, editProps, onDone]);
 
   const [quickAddActionDialogOpen, setQuickAddActionDialogOpen] =
     useState(false);
@@ -173,10 +175,14 @@ export function RecordDialog({
   const saveSelected = useCallback(() => {
     // Prevent double saving
     if (done) return;
-    setDone(true);
 
     // TODO: input for time
     if (selectedEntry.current) {
+      if (!Number.isFinite(duration) || duration <= 0) {
+        alert(`Invalid duration: ${durationText}`);
+        return;
+      }
+
       const newModel: RecordModel = {
         actionID: selectedEntry.current.entry.action.model.id,
         duration,
@@ -190,9 +196,19 @@ export function RecordDialog({
           ? state.addRecord(newModel)
           : state.updateRecord(editProps.recordIndex, newModel)
       );
+      setDone(true);
       onDone?.();
     }
-  }, [date, duration, editProps, done, onDone, state, updateState]);
+  }, [
+    done,
+    duration,
+    date,
+    updateState,
+    editProps,
+    state,
+    onDone,
+    durationText,
+  ]);
 
   useEffect(() => {
     const actionInput = actionInputRef.current;
@@ -205,6 +221,9 @@ export function RecordDialog({
       } else if (e.key === 'Enter' && !e.shiftKey) {
         if (autocomplete()) {
           durationInputRef.current?.focus();
+          setTimeout(() => {
+            durationInputRef.current?.select();
+          }, 0);
         }
       } else if (e.key === 'ArrowUp' || (e.ctrlKey && e.key === 'k')) {
         actionFinderRef.current?.prevSelection();
@@ -235,9 +254,13 @@ export function RecordDialog({
     };
   }, [saveSelected]);
 
-  const onDurationInputChange = useCallback((value: number) => {
-    setDuration(value);
-  }, []);
+  const onDurationInputChange = useCallback(
+    (value: number, valueText: string) => {
+      setDuration(value);
+      setDurationText(valueText);
+    },
+    []
+  );
 
   const onSelectedEntryChanged = useCallback(
     (entry: ActionFinderQueryResultEntry | undefined) => {
@@ -281,7 +304,7 @@ export function RecordDialog({
             leftIcon="time"
             placeholder="Duration"
             style={{ width: '100px' }}
-            value={duration}
+            value={durationText}
             onValueChange={onDurationInputChange}
             inputRef={durationInputRef}
             min={0}

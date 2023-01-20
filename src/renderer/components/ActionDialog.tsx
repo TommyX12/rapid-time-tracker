@@ -151,7 +151,6 @@ export function ActionDialog({
   const save = useCallback(() => {
     // Prevent double saving
     if (done) return;
-    setDone(true);
 
     const editAction =
       editProps === undefined
@@ -182,6 +181,7 @@ export function ActionDialog({
         })
       );
     }
+    setDone(true);
     onDone?.();
   }, [
     done,

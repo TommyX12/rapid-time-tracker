@@ -187,6 +187,18 @@ export class DataState {
     });
   }
 
+  rescaleAllRecords(oldHoursPerUnit: number, newHoursPerUnit: number) {
+    const factor = oldHoursPerUnit / newHoursPerUnit;
+    if (!Number.isFinite(factor) || factor <= 0) {
+      return this;
+    }
+    return produce(this, (draft) => {
+      for (let i = 0; i < draft.records.length; ++i) {
+        draft.records[i].model.duration *= factor;
+      }
+    });
+  }
+
   // Note: This reads the current state, not draft.
   private makeDummyChild(
     actionID: number,
