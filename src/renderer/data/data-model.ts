@@ -8,11 +8,14 @@ import {
 
 export type ActionID = number;
 
+const SETTINGS_MARKER = '[SETTINGS]';
+
 const ACTIONS_MARKER = '[ACTIONS]';
 
 const RECORDS_MARKER = '[RECORDS]';
 
 enum ParsingMode {
+  SETTINGS,
   ACTIONS,
   RECORDS,
 }
@@ -30,33 +33,94 @@ export interface RecordModel {
   readonly duration: number;
 }
 
+export interface SettingsModel {
+  readonly defaultRecordUnits: number;
+  readonly hoursPerUnit: number;
+}
+
 export interface DataModel {
+  readonly settings: SettingsModel;
   readonly actions: ActionModel[];
   readonly records: RecordModel[];
 }
 
+export const DEFAULT_SETTINGS: SettingsModel = {
+  defaultRecordUnits: 1.0,
+  hoursPerUnit: 1.0,
+};
+
+interface SettingsConfig<T> {
+  parse(text: string): T;
+  stringify(value: T): string;
+}
+
+const STRING_SETTING: SettingsConfig<string> = {
+  parse(text: string) {
+    return text;
+  },
+  stringify(value: string): string {
+    return value;
+  },
+};
+
+const NUMBER_SETTING: SettingsConfig<number> = {
+  parse(text: string) {
+    const duration = parseInt(text, 10);
+    if (Number.isNaN(duration) || duration < 0) {
+      throw new Error(`Failed to parse number: ${text}`);
+    }
+    return duration;
+  },
+  stringify(value: number): string {
+    return `${value}`;
+  },
+};
+
+const SETTINGS_CONFIGS: {
+  [Key in keyof SettingsModel]: SettingsConfig<SettingsModel[Key]>;
+} = {
+  defaultRecordUnits: NUMBER_SETTING,
+  hoursPerUnit: NUMBER_SETTING,
+};
+
 export class DataModelReader {
   read(text: string): DataModel {
     const model: DataModel = {
+      settings: DEFAULT_SETTINGS,
       actions: [],
       records: [],
     };
 
     const lines = text.split('\n').filter((line) => line.length > 0);
 
-    let parsingMode = ParsingMode.ACTIONS;
+    let parsingMode = ParsingMode.SETTINGS;
 
     const parentStack: [ActionID, number][] = [];
 
     for (const line of lines) {
       if (line.startsWith('[')) {
-        if (line === ACTIONS_MARKER) {
+        if (line === SETTINGS_MARKER) {
+          parsingMode = ParsingMode.SETTINGS;
+        } else if (line === ACTIONS_MARKER) {
           parsingMode = ParsingMode.ACTIONS;
         } else if (line === RECORDS_MARKER) {
           parsingMode = ParsingMode.RECORDS;
         }
       } else {
-        if (parsingMode === ParsingMode.ACTIONS) {
+        if (parsingMode === ParsingMode.SETTINGS) {
+          const colonIndex = line.indexOf(':');
+          if (colonIndex === -1) {
+            throw new Error(`Invalid settings entry: ${line}`);
+          }
+          const key = line.substring(0, colonIndex).trim();
+          const valueText = line.substring(colonIndex + 1).trim();
+          const config = SETTINGS_CONFIGS[key as any];
+          if (config === undefined) {
+            throw new Error(`Invalid settings key: ${key}`);
+          }
+          const value = config.parse(valueText);
+          model.settings[key as any] = value;
+        } else if (parsingMode === ParsingMode.ACTIONS) {
           let indentCount = 0;
           while (indentCount < line.length && line[indentCount] === ' ') {
             indentCount += 1;
@@ -145,6 +209,16 @@ export class DataModelWriter {
   write(model: DataModel): string {
     const lines: string[] = [];
 
+    lines.push(SETTINGS_MARKER);
+    const settingsKeys = Object.keys(model.settings);
+    settingsKeys.sort();
+    for (const key of settingsKeys) {
+      const config = SETTINGS_CONFIGS[key as any];
+      if (!config) continue;
+      lines.push(`${key}: ${config.stringify(model.settings[key as any])}`);
+    }
+
+    lines.push('');
     lines.push(ACTIONS_MARKER);
 
     const children = new Map<ActionID, ActionID[]>();

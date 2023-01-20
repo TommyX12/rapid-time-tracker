@@ -1,5 +1,12 @@
 import produce, { Draft, immerable } from 'immer';
-import { ActionID, ActionModel, DataModel, RecordModel } from './data-model';
+import {
+  ActionID,
+  ActionModel,
+  DataModel,
+  DEFAULT_SETTINGS,
+  RecordModel,
+  SettingsModel,
+} from './data-model';
 import Color from 'color';
 import { clamp, firstGeq, firstLessThan, generateColor } from '../utils/utils';
 import { Time } from '../utils/time';
@@ -87,6 +94,7 @@ export class DataState {
     public actions = new Map<ActionID, Action>(),
     // Records are guaranteed to be sorted.
     public records: Record[] = [],
+    public settings: SettingsModel = DEFAULT_SETTINGS,
     public filePath?: string
   ) {
     let nextID = 0;
@@ -170,6 +178,12 @@ export class DataState {
     return produce(this, (draft) => {
       draft.records.splice(index, 1);
       draft.recordReferenceSignature = newRecordReferenceSignature();
+    });
+  }
+
+  updateSettings(recipe: (draft: Draft<SettingsModel>) => void) {
+    return produce(this, (draft) => {
+      recipe(draft.settings);
     });
   }
 
@@ -335,6 +349,7 @@ export class DataState {
 
   toModel() {
     const model: DataModel = {
+      settings: this.settings,
       actions: [],
       records: [],
     };
@@ -406,7 +421,7 @@ export class DataState {
       return a.model.time.seconds - b.model.time.seconds;
     });
 
-    return new DataState(actions, records, filePath);
+    return new DataState(actions, records, model.settings, filePath);
   }
 
   dfs(
@@ -430,6 +445,7 @@ export class DataState {
     return new DataState(
       new Map<ActionID, Action>([[ROOT_ACTION_ID, this.createRootAction()]]),
       [],
+      DEFAULT_SETTINGS,
       filePath
     );
   }
@@ -443,7 +459,7 @@ export class DataState {
     });
   }
 
-  static isTree(actions: Map<ActionID, Action>) {
+  private static isTree(actions: Map<ActionID, Action>) {
     const visited = new Set<ActionID>();
     const dfs = (action: Action) => {
       if (visited.has(action.model.id)) {
