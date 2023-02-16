@@ -65,8 +65,8 @@ const STRING_SETTING: SettingsConfig<string> = {
 
 const NUMBER_SETTING: SettingsConfig<number> = {
   parse(text: string) {
-    const duration = parseInt(text, 10);
-    if (Number.isNaN(duration) || duration < 0) {
+    const duration = parseFloat(text);
+    if (!Number.isFinite(duration) || duration < 0) {
       throw new Error(`Failed to parse number: ${text}`);
     }
     return duration;
@@ -91,7 +91,9 @@ export class DataModelReader {
       records: [],
     };
 
-    const lines = text.split('\n').filter((line) => line.length > 0);
+    const lines = text
+      .split(/\r?\n/)
+      .filter((line) => line.trimEnd().length > 0);
 
     let parsingMode = ParsingMode.SETTINGS;
 
@@ -174,7 +176,7 @@ export class DataModelReader {
 
   parseActionID(token: string) {
     const id = parseInt(token, 10);
-    if (Number.isNaN(id) || id < MIN_ACTION_ID) {
+    if (!Number.isFinite(id) || id < MIN_ACTION_ID) {
       throw new Error(`Invalid action ID: ${token}`);
     }
     return id;
@@ -182,7 +184,7 @@ export class DataModelReader {
 
   parseParentActionID(token: string) {
     const id = parseInt(token, 10);
-    if (Number.isNaN(id) || id < MIN_ACTION_ID_INCLUDING_ROOT) {
+    if (!Number.isFinite(id) || id < MIN_ACTION_ID_INCLUDING_ROOT) {
       throw new Error(`Invalid parent action ID: ${token}`);
     }
     return id;
@@ -197,8 +199,8 @@ export class DataModelReader {
   }
 
   parseDuration(token: string) {
-    const duration = parseInt(token, 10);
-    if (Number.isNaN(duration) || duration < 0) {
+    const duration = parseFloat(token);
+    if (!Number.isFinite(duration) || duration < 0) {
       throw new Error(`Invalid duration: ${token}`);
     }
     return duration;
